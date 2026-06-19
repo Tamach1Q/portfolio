@@ -91,8 +91,8 @@ export default function AboutPage() {
       </section>
 
       {/* ===== 私の軸（未公開） ===== */}
-      <section className="border-hairline flex min-h-[360px] w-full items-center justify-center border-t px-6 py-20 md:min-h-[480px] md:px-12 md:py-28">
-        <FadeIn className="w-full text-center">
+      <section className="border-hairline relative min-h-[360px] w-full border-t md:min-h-[480px]">
+        <FadeIn className="absolute inset-0 flex items-center justify-center text-center">
           <span className="font-garamond text-muted text-sm tracking-[0.35em] md:text-base">
             coming soon...
           </span>
