@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { profile, timeline, axis } from "@/data/about";
+import { profile, timeline } from "@/data/about";
 import VerticalHeading from "@/components/VerticalHeading";
 import FadeIn from "@/components/FadeIn";
 import { withBase } from "@/lib/base-path";
@@ -90,60 +90,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ===== 私の軸（Mission / Vision / Concept） ===== */}
+      {/* ===== 私の軸（未公開） ===== */}
       <section className="border-hairline w-full border-t px-6 py-20 md:px-12 md:py-28">
-        <div className="mx-auto flex max-w-[1100px] flex-col gap-12 md:flex-row-reverse md:justify-between md:gap-16">
-          <FadeIn className="md:self-start">
-            <VerticalHeading text="" />
-          </FadeIn>
-
-          <div className="flex-1 md:max-w-[720px]">
-            {axis.length > 0 ? (
-              <div className="space-y-12">
-                {axis.map((a, i) => (
-                  <FadeIn
-                    key={a.key}
-                    delay={i * 0.1}
-                    className="flex flex-col items-start gap-5 sm:flex-row sm:gap-8"
-                  >
-                    {/* 六角形バッジ */}
-                    <div className="relative flex h-[96px] w-[88px] shrink-0 items-center justify-center">
-                      <svg
-                        viewBox="0 0 100 112"
-                        className="text-ink absolute inset-0 h-full w-full"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.2"
-                        aria-hidden
-                      >
-                        <polygon points="50,3 95,29 95,83 50,109 5,83 5,29" />
-                      </svg>
-                      <span className="font-garamond text-ink-strong text-[12px] tracking-[0.15em]">
-                        {a.key}
-                      </span>
-                    </div>
-
-                    <div className="pt-2">
-                      <h3 className="font-mincho text-ink-strong text-lg tracking-[0.08em] md:text-xl">
-                        {a.title}
-                      </h3>
-                      <p className="font-mincho text-ink mt-3 max-w-2xl text-[13px] leading-[2] tracking-[0.05em] md:text-[14px]">
-                        {a.body}
-                      </p>
-                    </div>
-                  </FadeIn>
-                ))}
-              </div>
-            ) : (
-              // 未公開: テキストは置かず、余白を保ったまま控えめに Coming soon
-              <FadeIn className="flex min-h-[200px] items-center justify-center md:min-h-[280px]">
-                <span className="font-garamond text-muted text-sm tracking-[0.35em] md:text-base">
-                  Coming soon...
-                </span>
-              </FadeIn>
-            )}
-          </div>
-        </div>
+        <FadeIn className="mx-auto flex min-h-[200px] max-w-[1100px] items-center justify-center md:min-h-[280px]">
+          <span className="font-garamond text-muted text-sm tracking-[0.35em] md:text-base">
+            coming soon...
+          </span>
+        </FadeIn>
       </section>
     </>
   );
