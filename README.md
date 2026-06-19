@@ -8,7 +8,7 @@
 - **Tailwind CSS v4**（CSSベースのトークン設定。`src/app/globals.css`）
 - **Framer Motion**（控えめなスクロールフェードイン・ホバー演出）
 - フォント: ヒラギノ明朝 → **Noto Serif JP**（フォールバック）/ 欧文 **EB Garamond** / 補助 Noto Sans JP（`next/font/google`）
-- デプロイ: **Vercel** 想定
+- デプロイ: **Github Pages** 
 
 ## 開発
 
