@@ -66,15 +66,3 @@ public/
 現状は送信先サービスを繋いでいないため、`src/components/ContactForm.tsx` の `sendContact()` で
 `mailto:` を起動してメーラーをプリフィルする実装。実際に受信したくなったら、この関数だけを
 Formspree / Resend / Route Handler（`app/api/contact/route.ts`）に差し替えれば良い。
-
-## 既知の TODO
-
-- ヘッダーの Facebook / Twitter のURLは未設定（`src/components/Header.tsx` の `socialLinks` を要差し替え）。
-- 自己紹介の Mission / Vision / Concept 本文は暫定（`src/data/about.ts` の `axis`）。
-- 仕事詳細の画像はサムネを流用中。専用のヒーロー画像があれば `public/works/<slug>-hero.png` を差し替え。
-
-## デプロイ（Vercel）
-
-1. GitHub にリポジトリを作って push。
-2. vercel.com で GitHub 連携 → リポジトリ選択 → デフォルト設定で Deploy。
-3. 以後 `main` に push するたび自動デプロイ。
