@@ -94,7 +94,7 @@ export default function AboutPage() {
       <section className="border-hairline w-full border-t px-6 py-20 md:px-12 md:py-28">
         <div className="mx-auto flex max-w-[1100px] flex-col gap-12 md:flex-row-reverse md:justify-between md:gap-16">
           <FadeIn className="md:self-start">
-            <VerticalHeading text="私の軸" />
+            <VerticalHeading text="" />
           </FadeIn>
 
           <div className="flex-1 md:max-w-[720px]">
