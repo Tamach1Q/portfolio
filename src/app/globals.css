@@ -1,26 +1,65 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/*
+ * デザイントークン（oniguili.jp 系：白背景・明朝・繊細な罫線・余白重視）
+ * 正確な数値は Figma を見ながら調整する。
+ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* フォント。和文はヒラギノ明朝を最優先し、無い環境用に Noto Serif JP をフォールバック */
+  --font-mincho:
+    "Hiragino Mincho ProN", "Hiragino Mincho Pro", "YuMincho", "Yu Mincho",
+    var(--font-noto-serif), "Noto Serif JP", serif;
+  --font-garamond:
+    var(--font-eb-garamond), "EB Garamond", "Times New Roman", serif;
+  --font-gothic:
+    var(--font-noto-sans), "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    "Noto Sans JP", sans-serif;
+
+  /* 色 */
+  --color-paper: #fdfdfc; /* 背景（ごく僅かに温かみのある白） */
+  --color-ink: #1a1a1a; /* 本文 */
+  --color-ink-strong: #0a0a0a; /* 見出し */
+  --color-muted: #8a8a8a; /* 注釈・サブ */
+  --color-hairline: #d9d9d9; /* 罫線 */
+  --color-hairline-strong: #1a1a1a; /* 強い罫線（黒） */
 }
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: light;
+  }
+
+  body {
+    /* oniguili 系の上品さ: 字間をわずかに広げ、行間をゆったり */
+    letter-spacing: 0.04em;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* モバイルで微小なはみ出しが横スクロールを生むのを防ぐ安全網 */
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: #1a1a1a;
+    color: #fdfdfc;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* 縦書き（日本語混在: 漢字かな縦・英数横倒し） */
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    -webkit-writing-mode: vertical-rl;
+  }
+  /* 縦書き（全文字を正立: 見出し向け） */
+  .writing-vertical-upright {
+    writing-mode: vertical-rl;
+    -webkit-writing-mode: vertical-rl;
+    text-orientation: upright;
+  }
+  /* 縦中横（年号などをまとめて横並びに） */
+  .text-combine {
+    -webkit-text-combine: horizontal;
+    text-combine-upright: all;
+  }
 }
