@@ -78,23 +78,3 @@ export const techStack: { category: string; items: string[] }[] = [
     items: ["Figma", "Adobe Illustrator","Adobe Photoshop"],
   },
 ];
-
-// 私の軸（Mission / Vision / Concept）
-// ※ body は Figma がダミーのため、暫定の説明文。本番文言は要差し替え。
-export const axis: { key: string; title: string; body: string }[] = [
-  /*{
-    key: "Mission",
-    title: "誰もが齟齬なく意思疎通できる社会を作る",
-    body: "人と人、人と技術の間に生まれる「伝わらなさ」を減らしたい。データとAIを使って、誤解や齟齬のないコミュニケーションが当たり前になる社会を目指します。",
-  },
-  {
-    key: "Vision",
-    title: "自分の感覚をしっくりくる言葉で表現できる世界",
-    body: "誰もが頭の中にある曖昧な感覚を、ぴったりの言葉や形にして外に出せる。そんな表現のハードルが下がった世界を実現したい。",
-  },
-  {
-    key: "Concept",
-    title: "もどかしさを愛する",
-    body: "うまく言葉にできない、思い通りにいかない——その「もどかしさ」こそが探究の入り口。簡単に割り切らず、その奥にある面白さを掘り続けます。",
-  },*/
-];
