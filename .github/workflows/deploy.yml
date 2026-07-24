@@ -41,6 +41,9 @@ jobs:
         env:
           # プロジェクトページのサブパスを basePath として渡す
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          # Contact フォームの送信先（Formspree）。未設定でもビルドは通り、
+          # その場合フォームは mailto: にフォールバックする。
+          NEXT_PUBLIC_FORMSPREE_ENDPOINT: ${{ secrets.FORMSPREE_ENDPOINT }}
         run: npm run build
 
       - name: Upload artifact

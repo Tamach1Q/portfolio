@@ -20,26 +20,64 @@ const initial: Fields = {
   message: "",
 };
 
-/**
- * 送信処理。第一段階では mailto: でメーラーをプリフィルする。
- * 後で Formspree / Resend / Route Handler に差し替えやすいよう、ここ1関数に閉じている。
- */
-async function sendContact(fields: Fields): Promise<void> {
+// Formspree のフォームエンドポイント（https://formspree.io/f/xxxxxxxx）。
+// 静的書き出しのためサーバーを持てないので、送信は外部サービスへ直接 POST する。
+// ビルド時に埋め込まれる値なので、未設定ならビルド結果には空文字が入る。
+const ENDPOINT = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT || "";
+
+/** 本文を1つのテキストにまとめる（メール本文・mailto 双方で使う） */
+function buildBody(fields: Fields): string {
+  return [
+    `会社名: ${fields.company || "（未記入）"}`,
+    `お名前: ${fields.name}`,
+    `電話番号: ${fields.tel || "（未記入）"}`,
+    `Email: ${fields.email}`,
+    "",
+    "ご要件:",
+    fields.message,
+  ].join("\n");
+}
+
+/** メーラーを開く（Formspree 未設定時・送信失敗時の退避経路） */
+function openMailer(fields: Fields): void {
   const subject = encodeURIComponent(
     `【お問い合わせ】${fields.company || fields.name}様`,
   );
-  const body = encodeURIComponent(
-    [
-      `会社名: ${fields.company}`,
-      `お名前: ${fields.name}`,
-      `電話番号: ${fields.tel}`,
-      `Email: ${fields.email}`,
-      "",
-      "ご要件:",
-      fields.message,
-    ].join("\n"),
-  );
-  window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+  window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${encodeURIComponent(
+    buildBody(fields),
+  )}`;
+}
+
+/**
+ * 送信処理。Formspree 経由でメールに転送する。
+ * エンドポイント未設定・ネットワーク失敗時は mailto へフォールバックし、
+ * 「押したのに何も起きない」状態を作らない。
+ */
+async function sendContact(fields: Fields): Promise<"sent" | "mailto"> {
+  if (!ENDPOINT) {
+    openMailer(fields);
+    return "mailto";
+  }
+
+  try {
+    const res = await fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        会社名: fields.company,
+        お名前: fields.name,
+        電話番号: fields.tel,
+        email: fields.email, // Formspree が返信先として解釈するキー
+        ご要件: fields.message,
+        _subject: `【お問い合わせ】${fields.company || fields.name}様`,
+      }),
+    });
+    if (!res.ok) throw new Error(`Formspree responded ${res.status}`);
+    return "sent";
+  } catch {
+    openMailer(fields);
+    return "mailto";
+  }
 }
 
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -56,7 +94,10 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>(
     {},
   );
-  const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
+  // sent = Formspree が受理 / mailto = メーラーへ退避した
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "mailto">(
+    "idle",
+  );
 
   const update =
     (key: keyof Fields) =>
@@ -80,20 +121,31 @@ export default function ContactForm() {
     e.preventDefault();
     if (!validate()) return;
     setStatus("sending");
-    await sendContact(fields);
-    setStatus("done");
+    setStatus(await sendContact(fields));
   };
 
-  if (status === "done") {
+  if (status === "sent" || status === "mailto") {
     return (
       <div className="border-hairline mx-auto max-w-[760px] border px-8 py-16 text-center">
         <p className="font-mincho text-ink-strong text-lg tracking-[0.1em]">
-          メーラーを起動しました。
+          {status === "sent"
+            ? "お問い合わせを送信しました。"
+            : "メーラーを起動しました。"}
         </p>
         <p className="font-mincho text-ink mt-4 text-[14px] leading-[2]">
-          内容をご確認のうえ送信してください。
-          <br />
-          起動しない場合は{" "}
+          {status === "sent" ? (
+            <>
+              内容を確認のうえ、折り返しご連絡いたします。
+              <br />
+              お急ぎの場合は{" "}
+            </>
+          ) : (
+            <>
+              内容をご確認のうえ送信してください。
+              <br />
+              起動しない場合は{" "}
+            </>
+          )}
           <a
             href={`mailto:${EMAIL}`}
             className="text-ink underline underline-offset-4"
