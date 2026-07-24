@@ -1,7 +1,12 @@
+// 一覧の絞り込み軸。表示順もこの配列順（先頭に「すべて」が付く）。
+export const WORK_CATEGORIES = ["データ分析", "AI実装", "ゲーム開発"] as const;
+export type WorkCategory = (typeof WORK_CATEGORIES)[number];
+
 export type Work = {
   slug: string; // URL とファイル対応。一意
   title: string; // 詳細ページ見出し
   thumbnailLabel: string; // 一覧サムネ用の短い名前
+  category: WorkCategory; // 一覧のフィルター用
   summary: string; // タイトル下の説明文
   stack: {
     languages: string;
@@ -23,6 +28,7 @@ export const works: Work[] = [
     slug: "fc-tokushima",
     title: "FC徳島 データ分析PJ",
     thumbnailLabel: "FC徳島",
+    category: "データ分析",
     summary:
       "FC徳島のデータドリブンサッカーに携わり、GPSデータを用いたACWR理論によるコンディション管理・練習負荷最適化システムの見える化を行いました。",
     stack: {
@@ -45,6 +51,7 @@ export const works: Work[] = [
     slug: "mufg",
     title: "MUFG Data Science Challenge 2025",
     thumbnailLabel: "MUFG",
+    category: "データ分析",
     summary:
       "中小企業向け融資データに基づき、企業の属性や融資条件から将来的な債務不履行（デフォルト）リスクを予測する分類モデルを構築しました。銀行の融資審査における意思決定支援を想定し、データの不均衡性を考慮した上で、予測精度とモデルの説明可能性の両立に注力しました。",
     stack: {
@@ -67,6 +74,7 @@ export const works: Work[] = [
     slug: "dcon",
     title: "2026全国高等専門学校ディープラーニングコンテスト",
     thumbnailLabel: "DCON",
+    category: "AI実装",
     summary:
       "高齢者や視覚障害者の買い物を支援する自律走行カートにおいて、ユーザーの自然言語による指示を理解し、適切な行動決定を行うAIシステムを開発。通信環境に依存しない安定性とプライバシー保護のため、NVIDIA Jetson上でのローカルLLM稼働を実現しました。",
     stack: {
@@ -89,6 +97,7 @@ export const works: Work[] = [
     slug: "unletter",
     title: "まるごと祭2025授業模擬店企画 - Unletter",
     thumbnailLabel: "Unletter",
+    category: "ゲーム開発",
     summary:
       "授業の模擬店企画として、チームで「文字を切って脱出する」アクションゲームを制作・出展しました。CTOとして、コアとなる切断アクションの挙動や、ゲーム進行を管理するシーン遷移システムの構築やコードの構造化を担当。期間内での完成・展示を目指しました。",
     stack: {

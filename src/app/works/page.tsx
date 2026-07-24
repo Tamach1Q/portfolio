@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { works } from "@/data/works";
-import WorkCard from "@/components/WorkCard";
+import WorksFilter from "@/components/WorksFilter";
 import VerticalHeading from "@/components/VerticalHeading";
 import ContactCTA from "@/components/ContactCTA";
 import FadeIn from "@/components/FadeIn";
@@ -19,17 +19,8 @@ export default function WorksPage() {
             <VerticalHeading text="仕事" note="これまでの仕事" />
           </FadeIn>
 
-          <div className="mt-14 flex flex-wrap justify-center gap-x-[60px] gap-y-[60px] lg:mt-20 lg:gap-x-[94px] lg:gap-y-[94px]">
-            {works.map((work, i) => (
-              <FadeIn
-                key={work.slug}
-                delay={i * 0.08}
-                className="flex w-full justify-center sm:w-[46%] lg:w-[356px]"
-              >
-                <WorkCard work={work} />
-              </FadeIn>
-            ))}
-          </div>
+          {/* 絞り込みは状態を持つためクライアント側に切り出している */}
+          <WorksFilter works={works} />
         </div>
       </section>
 
