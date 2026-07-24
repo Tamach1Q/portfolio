@@ -38,6 +38,9 @@ npm run start    # 本番サーバ
 
 1. `src/data/works.ts` の `works` 配列にオブジェクトを1つ追加（`slug` は一意に）。
    - 配列の順序がそのまま詳細ページの **NEXT →** の順送り順になる。
+   - `category` は `WORK_CATEGORIES`（データ分析 / AI実装 / ゲーム開発）から選ぶ。
+     `/works` のフィルターのタブと件数はこの値から自動生成される。
+     軸を増やしたいときは `WORK_CATEGORIES` に足すだけでよい。
 2. `public/works/` にサムネ画像（`<slug>-thumb.png`）とヒーロー画像（`<slug>-hero.png`）を置く。
 3. 以上。`/works` 一覧にも `/works/<slug>` にも自動で反映される。
 
@@ -63,6 +66,16 @@ public/
 
 ## お問い合わせフォームについて
 
-現状は送信先サービスを繋いでいないため、`src/components/ContactForm.tsx` の `sendContact()` で
-`mailto:` を起動してメーラーをプリフィルする実装。実際に受信したくなったら、この関数だけを
-Formspree / Resend / Route Handler（`app/api/contact/route.ts`）に差し替えれば良い。
+`src/components/ContactForm.tsx` の `sendContact()` から **Formspree** へ POST し、
+メールに転送する。静的書き出し（サーバーなし）のため、送信は外部サービスへ直接投げている。
+
+送信先は環境変数 `NEXT_PUBLIC_FORMSPREE_ENDPOINT` で指定する。
+
+- ローカル: プロジェクト直下に `.env.local` を作り
+  `NEXT_PUBLIC_FORMSPREE_ENDPOINT=https://formspree.io/f/xxxxxxxx` と記述
+- 本番: GitHub リポジトリの Settings → Secrets and variables → Actions に
+  `FORMSPREE_ENDPOINT` を登録（`.github/workflows/deploy.yml` がビルド時に渡す）
+
+未設定でもビルドは通り、その場合フォームは `mailto:` にフォールバックする。
+ネットワークエラーで送信に失敗したときも同様にメーラーへ退避するので、
+「押しても何も起きない」状態にはならない。
