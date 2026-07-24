@@ -31,6 +31,54 @@ export const timeline: { date: string; label: string }[] = [
   { date: "2021.04", label: "中学受験で中高一貫校へ" },
 ];
 
+// 技術スタック（/about）
+// 実績ページに掲載している技術と、このサイトで使用している技術を中心に整理。
+export const techStack: { category: string; items: string[] }[] = [
+  {
+    category: "Data / Machine Learning",
+    items: [
+      "Python",
+      "pandas",
+      "NumPy",
+      "scikit-learn",
+      "LightGBM",
+      "Optuna",
+      "PyTorch",
+      "Transformers",
+    ],
+  },
+  {
+    category: "AI / Edge",
+    items: [
+      "LLM",
+      "Prompt Engineering",
+      "Model Quantization",
+      "llama-cpp-python",
+      "Jetson",
+    ],
+  },
+  {
+    category: "Generative AI",
+    items: [
+      "Claude",
+      "ChatGPT",
+      "Gemini",
+    ],
+  },
+  {
+    category: "Web",
+    items: ["TypeScript", "React", "Next.js", "Tailwind CSS", "Framer Motion"],
+  },
+  {
+    category: "Game / Tools",
+    items: ["C#", "Unity", "Unity Input System", "TextMeshPro", "GitHub"],
+  },
+  {
+    category: "Design",
+    items: ["Figma", "Adobe Illustrator","Adobe Photoshop"],
+  },
+];
+
 // 私の軸（Mission / Vision / Concept）
 // ※ body は Figma がダミーのため、暫定の説明文。本番文言は要差し替え。
 export const axis: { key: string; title: string; body: string }[] = [

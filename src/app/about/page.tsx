@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { profile, timeline } from "@/data/about";
+import { profile, techStack, timeline } from "@/data/about";
 import VerticalHeading from "@/components/VerticalHeading";
 import FadeIn from "@/components/FadeIn";
 import { withBase } from "@/lib/base-path";
@@ -90,13 +90,43 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ===== 私の軸（未公開） ===== */}
-      <section className="border-hairline relative min-h-[360px] w-full border-t md:min-h-[480px]">
-        <FadeIn className="absolute inset-0 flex items-center justify-center text-center">
-          <span className="font-garamond text-muted text-sm tracking-[0.35em] md:text-base">
-            coming soon...
-          </span>
-        </FadeIn>
+      {/* ===== 技術スタック ===== */}
+      <section className="border-hairline w-full border-t px-6 py-20 md:px-12 md:py-28">
+        <div className="mx-auto flex max-w-[1100px] flex-col gap-12 md:flex-row md:justify-between md:gap-16">
+          <FadeIn>
+            <VerticalHeading text="技術" note="できること" />
+          </FadeIn>
+
+          <div className="flex-1 md:max-w-[720px]">
+            <FadeIn>
+              <p className="font-mincho text-ink mb-10 text-[13px] leading-[2.1] tracking-[0.05em] md:text-[14px]">
+                制作や分析で扱ってきた技術を、今後の取り組みに合わせて少しずつ更新していきます。
+              </p>
+            </FadeIn>
+
+            <div className="border-hairline border-t">
+              {techStack.map((group, i) => (
+                <FadeIn key={group.category} delay={i * 0.08}>
+                  <div className="border-hairline grid gap-4 border-b py-6 md:grid-cols-[200px_1fr] md:gap-8">
+                    <h3 className="font-garamond text-ink-strong text-[18px] leading-tight tracking-[0.08em]">
+                      {group.category}
+                    </h3>
+                    <ul className="flex flex-wrap gap-x-4 gap-y-2">
+                      {group.items.map((item) => (
+                        <li
+                          key={item}
+                          className="font-gothic text-ink text-[12px] leading-[1.8] tracking-[0.04em] md:text-[13px]"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+        </div>
       </section>
     </>
   );
